@@ -87,7 +87,13 @@
         }
 
         .callout-icon { font-size: 32px; margin-bottom: 4px; }
-        .callout-content h2 { margin: 0; font-size: 1.8em; font-weight: 700; }
+        .callout-content h2 { 
+            margin: 0; 
+            font-size: 1.8em; 
+            font-weight: 700; 
+            padding: 4px 12px;
+            border-radius: 4px;
+        }
 
         .member-chips { 
             display: flex; 
@@ -98,8 +104,6 @@
         }
         
         .chip {
-            background: rgba(132, 156, 138, 0.15);
-            color: #4a5d4e;
             padding: 4px 12px;
             border-radius: 4px;
             font-size: 13px;
@@ -118,11 +122,26 @@
         th { text-align: left; padding: 10px 8px; border-bottom: 1px solid var(--notion-border); color: var(--notion-gray); font-weight: 500; }
         td { padding: 12px 8px; border-bottom: 1px solid #efefef; vertical-align: top; }
 
+        /* Badge for the table group column */
+        .group-badge {
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-weight: 600;
+            font-size: 12px;
+            display: inline-block;
+        }
+
         .active-row { background-color: #f1f1ef; }
         .holiday { color: #d44c47; background: #fbe4e4; padding: 2px 6px; border-radius: 3px; font-size: 11px; font-weight: 700; }
 
         .directory { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
-        .directory-card { border: 1px solid var(--notion-border); border-radius: 4px; padding: 16px; }
+        .directory-card { 
+            border: 1px solid var(--notion-border); 
+            border-radius: 4px; 
+            padding: 16px; 
+            border-left-width: 5px;
+            border-left-style: solid;
+        }
         .directory-card h4 { margin: 0 0 8px 0; font-size: 14px; color: var(--notion-gray); }
         .directory-card p { margin: 0; font-size: 14px; line-height: 1.5; }
 
@@ -180,13 +199,14 @@
     </div>
 
     <script>
+        // Added Notion-style color palette (bg and text pairs)
         const groups = [
-            { name: "Group 1", members: ["Sathwik", "Srinand", "Varshitha", "Vishlesh"] },
-            { name: "Group 2", members: ["Chitta", "Nishita", "Chandrapal", "BG"] },
-            { name: "Group 3", members: ["Arkadeep", "Arya", "Ayush Abhilash", "Jathin"] },
-            { name: "Group 4", members: ["Barenya", "Gouri", "Gopal"] },
-            { name: "Group 5", members: ["Ayush Dash", "Sravani", "Chidvilas", "Jaswanth"] },
-            { name: "Group 6", members: ["Ayushmita", "Hongseng", "Gautam", "Keerthi"] }
+            { name: "Group 1", bg: "#ffe2dd", color: "#5d1715", members: ["Sathwik", "Srinand", "Varshitha", "Vishlesh"] },
+            { name: "Group 2", bg: "#d3e5ef", color: "#183347", members: ["Chitta", "Nishita", "Chandrapal", "BG"] },
+            { name: "Group 3", bg: "#fdecc8", color: "#402c1b", members: ["Arkadeep", "Arya", "Ayush Abhilash", "Jathin"] },
+            { name: "Group 4", bg: "#dbeddb", color: "#1c3829", members: ["Barenya", "Gouri", "Gopal"] },
+            { name: "Group 5", bg: "#e8deee", color: "#2e1d3a", members: ["Ayush Dash", "Sravani", "Chidvilas", "Jaswanth"] },
+            { name: "Group 6", bg: "#faebdd", color: "#4a2c0b", members: ["Ayushmita", "Hongseng", "Gautam", "Keerthi"] }
         ];
 
         const scheduleData = {
@@ -235,17 +255,17 @@
                 const rowDate = new Date(dateStr + 'T00:00:00');
                 const isHoliday = data.topic.toLowerCase().includes("holiday");
                 
-                let assignedGroupName = "";
+                let assignedGroupObj = null;
                 let currentClassNumber = "-";
+                let groupHtml = "";
 
-                // SPECIAL LOGIC: April 9 is "Everyone / All"
                 if (dateStr === "2026-04-09") {
-                    assignedGroupName = "Everyone / All";
+                    groupHtml = `<span class="group-badge" style="background:#efefef; color:#37352f">Everyone / All</span>`;
                 } else if (!isHoliday) {
-                    // Group 1 starts from the first non-holiday AFTER April 9
-                    assignedGroupName = groups[activeClassDayCounter % groups.length].name;
+                    assignedGroupObj = groups[activeClassDayCounter % groups.length];
                     activeClassDayCounter++;
                     currentClassNumber = activeClassDayCounter;
+                    groupHtml = `<span class="group-badge" style="background:${assignedGroupObj.bg}; color:${assignedGroupObj.color}">${assignedGroupObj.name}</span>`;
                 }
 
                 const tr = document.createElement('tr');
@@ -254,7 +274,7 @@
                 tr.innerHTML = `
                     <td style="color:var(--notion-gray)">${currentClassNumber}</td>
                     <td style="white-space:nowrap">${rowDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</td>
-                    <td style="font-weight:600">${isHoliday ? '' : assignedGroupName}</td>
+                    <td>${groupHtml}</td>
                     <td>${isHoliday ? '<span class="holiday">HOLIDAY</span>' : data.topic}</td>
                     <td style="color:var(--notion-gray)">${data.teacher}</td>
                 `;
@@ -266,7 +286,11 @@
                         document.getElementById('today-group').innerText = "It's a Holiday";
                         document.getElementById('today-topic').innerText = "Enjoy your day off!";
                     } else if (dateStr === "2026-04-09") {
-                        document.getElementById('today-group').innerText = "Everyone / All";
+                        const groupH2 = document.getElementById('today-group');
+                        groupH2.innerText = "Everyone / All";
+                        groupH2.style.background = "#efefef";
+                        groupH2.style.color = "#37352f";
+
                         document.getElementById('today-sl').innerText = "Intro. ";
                         document.getElementById('today-topic').innerText = data.topic;
                         document.getElementById('today-teacher').innerText = "Teacher: " + data.teacher;
@@ -274,11 +298,16 @@
                         const container = document.getElementById('today-members');
                         const span = document.createElement('span');
                         span.className = 'chip';
+                        span.style.background = "#efefef";
                         span.innerText = "Full Batch Presence";
                         container.appendChild(span);
                     } else {
-                        const g = groups[(activeClassDayCounter - 1) % groups.length];
-                        document.getElementById('today-group').innerText = g.name;
+                        const g = assignedGroupObj;
+                        const groupH2 = document.getElementById('today-group');
+                        groupH2.innerText = g.name;
+                        groupH2.style.background = g.bg;
+                        groupH2.style.color = g.color;
+
                         document.getElementById('today-sl').innerText = currentClassNumber + ". ";
                         document.getElementById('today-topic').innerText = data.topic;
                         document.getElementById('today-teacher').innerText = "Teacher: " + data.teacher;
@@ -287,6 +316,8 @@
                         g.members.forEach(m => {
                             const span = document.createElement('span');
                             span.className = 'chip';
+                            span.style.background = g.bg;
+                            span.style.color = g.color;
                             span.innerText = m;
                             container.appendChild(span);
                         });
@@ -298,6 +329,7 @@
             groups.forEach(g => {
                 const card = document.createElement('div');
                 card.className = 'directory-card';
+                card.style.borderLeftColor = g.bg;
                 card.innerHTML = `<h4>${g.name}</h4><p>${g.members.join(', ')}</p>`;
                 dir.appendChild(card);
             });
