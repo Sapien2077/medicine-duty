@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>6th Sem Medicine Postings Duty</title>
+    <title>6th Sem Medicine Posting Duty</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
     <style>
         :root {
@@ -12,14 +12,11 @@
             --notion-text: #37352f;
             --notion-gray: #787774;
             --notion-border: rgba(55, 53, 47, 0.16);
-            --sage-accent: #849C8A; /* Keeping a hint of your sage green */
+            --sage-accent: #849C8A;
             --notion-hover: #efefed;
         }
 
-        * {
-            box-sizing: border-box;
-            -webkit-font-smoothing: antialiased;
-        }
+        * { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
@@ -32,27 +29,21 @@
             align-items: center;
         }
 
-        .workspace {
-            max-width: 900px;
-            width: 100%;
-        }
+        .workspace { max-width: 900px; width: 100%; }
 
-        header {
-            margin-bottom: 48px;
-        }
+        header { margin-bottom: 48px; }
 
         h1 {
             font-size: 40px;
             font-weight: 700;
             margin: 0 0 8px 0;
             letter-spacing: -0.02em;
+            display: inline-block;
+            /* Subtle minimal highlight underline */
+            background-image: linear-gradient(transparent 70%, rgba(132, 156, 138, 0.3) 70%);
         }
 
-        .date-display {
-            font-size: 16px;
-            color: var(--notion-gray);
-            font-weight: 400;
-        }
+        .date-display { font-size: 16px; color: var(--notion-gray); font-weight: 400; margin-top: 10px; }
 
         .section-header {
             display: flex;
@@ -63,9 +54,11 @@
             text-transform: uppercase;
             letter-spacing: 0.05em;
             margin: 32px 0 12px 0;
+            border-bottom: 2px solid rgba(132, 156, 138, 0.2); /* Section highlight */
+            padding-bottom: 4px;
+            width: fit-content;
         }
 
-        /* Notion "Callout" style for Today's Roster */
         .callout {
             background: var(--notion-bg);
             border-radius: 4px;
@@ -75,23 +68,10 @@
             border: 1px solid transparent;
         }
 
-        .callout-icon {
-            font-size: 24px;
-        }
+        .callout-icon { font-size: 24px; }
+        .callout-content h2 { margin: 0 0 12px 0; font-size: 1.5em; }
 
-        .callout-content h2 {
-            margin: 0 0 12px 0;
-            font-size: 1.5em;
-        }
-
-        /* Group members tags */
-        .member-chips {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 12px;
-        }
-
+        .member-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
         .chip {
             background: rgba(132, 156, 138, 0.15);
             color: #4a5d4e;
@@ -101,82 +81,25 @@
             font-weight: 500;
         }
 
-        /* Minimalist Table */
-        .table-container {
-            width: 100%;
-            overflow-x: auto;
-            margin-top: 8px;
-        }
+        .table-container { width: 100%; overflow-x: auto; margin-top: 8px; }
+        table { width: 100%; border-collapse: collapse; font-size: 14px; }
+        th { text-align: left; padding: 10px 8px; border-bottom: 1px solid var(--notion-border); color: var(--notion-gray); font-weight: 500; }
+        td { padding: 12px 8px; border-bottom: 1px solid #efefef; vertical-align: top; }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 14px;
-        }
+        .active-row { background-color: #f1f1ef; }
+        .holiday { color: #d44c47; background: #fbe4e4; padding: 2px 6px; border-radius: 3px; font-size: 11px; font-weight: 700; }
 
-        th {
-            text-align: left;
-            padding: 10px 8px;
-            border-bottom: 1px solid var(--notion-border);
-            color: var(--notion-gray);
-            font-weight: 500;
-        }
+        .directory { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
+        .directory-card { border: 1px solid var(--notion-border); border-radius: 4px; padding: 16px; transition: background 0.2s; }
+        .directory-card:hover { background: var(--notion-hover); }
+        .directory-card h4 { margin: 0 0 8px 0; font-size: 14px; color: var(--notion-gray); }
+        .directory-card p { margin: 0; font-size: 14px; line-height: 1.5; }
 
-        td {
-            padding: 12px 8px;
-            border-bottom: 1px solid #efefef;
-            vertical-align: top;
-        }
-
-        .active-row {
-            background-color: #f1f1ef;
-        }
-
-        .holiday {
-            color: #d44c47;
-            background: #fbe4e4;
-            padding: 2px 6px;
-            border-radius: 3px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-
-        /* Directory Grid */
-        .directory {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-            gap: 16px;
-        }
-
-        .directory-card {
-            border: 1px solid var(--notion-border);
-            border-radius: 4px;
-            padding: 16px;
-            transition: background 0.2s;
-        }
-
-        .directory-card:hover {
-            background: var(--notion-hover);
-        }
-
-        .directory-card h4 {
-            margin: 0 0 8px 0;
-            font-size: 14px;
-            color: var(--notion-gray);
-        }
-
-        .directory-card p {
-            margin: 0;
-            font-size: 14px;
-            line-height: 1.5;
-        }
-
-        /* Responsiveness */
         @media (max-width: 600px) {
             body { padding: 24px 16px; }
             h1 { font-size: 32px; }
             .callout { flex-direction: column; gap: 8px; }
-            th:nth-child(5), td:nth-child(5) { display: none; } /* Hide Teacher on tiny screens */
+            th:nth-child(5), td:nth-child(5) { display: none; }
         }
     </style>
 </head>
@@ -223,7 +146,6 @@
     </div>
 
     <script>
-        const startRotationDate = '2026-04-09';
         const groups = [
             { name: "Group 1", members: ["Sathwik", "Srinand", "Varshita", "Vishlesh"] },
             { name: "Group 2", members: ["Chitta", "Nishita", "Chandrapal", "BG"] },
@@ -233,6 +155,7 @@
             { name: "Group 6", members: ["Ayushmita", "Hongseng", "Gautam", "Keerthi"] }
         ];
 
+        // Ensure these dates are sorted chronologically
         const scheduleData = {
             "2026-04-09": { topic: "Nervous system Exam", teacher: "Faculty" },
             "2026-04-10": { topic: "Rheumatological exam", teacher: "Resident" },
@@ -263,19 +186,23 @@
             const todayStr = today.toISOString().split('T')[0];
             document.getElementById('current-date').innerText = today.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
 
-            const start = new Date(startRotationDate + 'T00:00:00');
             const tbody = document.querySelector('#schedule-table tbody');
-            let classCounter = 0;
+            
+            // LOGIC FIX: Maintain a "activeClassDay" counter that ONLY increments on non-holidays
+            let activeClassDayCounter = 0;
 
             Object.entries(scheduleData).forEach(([dateStr, data]) => {
                 const rowDate = new Date(dateStr + 'T00:00:00');
-                const isHoliday = data.topic === "Holiday";
-                const diffDays = Math.floor((rowDate - start) / (1000 * 60 * 60 * 24));
+                const isHoliday = data.topic.toLowerCase().includes("holiday");
                 
                 let assignedGroup = "";
-                if (!isHoliday && diffDays >= 0) {
-                    assignedGroup = groups[diffDays % groups.length].name;
-                    classCounter++;
+                let currentClassNumber = "-";
+
+                if (!isHoliday) {
+                    // Only calculate a group and increment counter if it's NOT a holiday
+                    assignedGroup = groups[activeClassDayCounter % groups.length].name;
+                    activeClassDayCounter++; // The counter only moves forward for valid classes
+                    currentClassNumber = activeClassDayCounter;
                 }
 
                 // Table Render
@@ -283,7 +210,7 @@
                 if (dateStr === todayStr) tr.className = 'active-row';
                 
                 tr.innerHTML = `
-                    <td style="color:var(--notion-gray)">${isHoliday ? '-' : classCounter}</td>
+                    <td style="color:var(--notion-gray)">${currentClassNumber}</td>
                     <td style="white-space:nowrap">${rowDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</td>
                     <td style="font-weight:600">${isHoliday ? '' : assignedGroup}</td>
                     <td>${isHoliday ? '<span class="holiday">HOLIDAY</span>' : data.topic}</td>
@@ -295,10 +222,11 @@
                 if (dateStr === todayStr) {
                     if (isHoliday) {
                         document.getElementById('today-group').innerText = "It's a Holiday";
+                        document.getElementById('today-topic').innerText = "Rest up!";
                     } else {
-                        const g = groups[diffDays % groups.length];
+                        const g = groups[(activeClassDayCounter - 1) % groups.length];
                         document.getElementById('today-group').innerText = g.name;
-                        document.getElementById('today-sl').innerText = classCounter + ". ";
+                        document.getElementById('today-sl').innerText = currentClassNumber + ". ";
                         document.getElementById('today-topic').innerText = data.topic;
                         document.getElementById('today-teacher').innerText = "Teacher: " + data.teacher;
                         
