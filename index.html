@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>6th Semester Clinical Postings</title>
+    <title>6th Semester Clinical Postings Duty</title>
     <style>
         :root {
             --bg-color: #F4F1EA; 
@@ -54,17 +54,17 @@
         }
 
         .date-display {
-            font-size: 1.2em;
+            font-size: 1.1em;
             font-weight: bold;
             color: #666;
         }
 
         .section-title {
-            font-size: 1.1em;
+            font-size: 1em;
             color: var(--secondary-color);
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             border-bottom: 1px solid var(--border-color);
             padding-bottom: 5px;
         }
@@ -112,10 +112,11 @@
             margin-right: 8px;
         }
         
+        /* Table Styles */
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 15px;
+            margin-top: 10px;
             font-size: 0.85em;
         }
         
@@ -137,8 +138,36 @@
             font-weight: bold;
         }
 
+        /* Directory Grid */
+        .directory-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .directory-item {
+            background: var(--bg-color);
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .directory-item h4 {
+            margin: 0 0 8px 0;
+            color: var(--primary-color);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 4px;
+        }
+
+        .directory-item div {
+            font-size: 0.9em;
+            color: #555;
+        }
+
         @media (max-width: 600px) {
             .group-list { flex-direction: column; }
+            .directory-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -181,6 +210,12 @@
                         </tbody>
                 </table>
             </div>
+        </div>
+
+        <div class="card">
+            <div class="section-title">Class Directory</div>
+            <div class="directory-grid" id="directory-grid">
+                </div>
         </div>
     </div>
 
@@ -235,11 +270,11 @@
             const tbody = document.querySelector('#schedule-table tbody');
             let classCounter = 0;
 
+            // Populate Table and Update Today Card
             Object.entries(scheduleData).forEach(([dateStr, data]) => {
                 const rowDate = new Date(dateStr + 'T00:00:00');
                 const isHoliday = data.topic === "Holiday";
                 
-                // Calculate Group for this specific date
                 const diffTime = rowDate - startDate;
                 const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
                 let assignedGroup = "N/A";
@@ -250,7 +285,6 @@
 
                 if (!isHoliday) classCounter++;
 
-                // Build Table Row
                 const tr = document.createElement('tr');
                 if (dateStr === todayString) tr.className = 'active-row';
                 if (isHoliday) tr.style.color = "#D9534F";
@@ -264,7 +298,6 @@
                 `;
                 tbody.appendChild(tr);
 
-                // Update "Today" Card if matches
                 if (dateStr === todayString) {
                     if (isHoliday) {
                         document.getElementById('group-name').innerText = "Holiday";
@@ -285,6 +318,18 @@
                         });
                     }
                 }
+            });
+
+            // Populate Directory Grid
+            const directory = document.getElementById('directory-grid');
+            groups.forEach(g => {
+                const div = document.createElement('div');
+                div.className = 'directory-item';
+                div.innerHTML = `
+                    <h4>${g.name}</h4>
+                    <div>${g.members.join(', ')}</div>
+                `;
+                directory.appendChild(div);
             });
         }
 
