@@ -269,7 +269,8 @@
             updateClock();
 
             const tbody = document.querySelector('#schedule-table tbody');
-            let activeClassDayCounter = 0;
+            let activeGroupRotationCounter = 0;
+            let serialNumberCounter = 0;
 
             Object.entries(scheduleData).forEach(([dateStr, data]) => {
                 const rowDate = new Date(dateStr + 'T00:00:00');
@@ -279,12 +280,16 @@
                 let currentClassNumber = "-";
                 let groupHtml = "";
 
+                if (!isHoliday) {
+                    serialNumberCounter++;
+                    currentClassNumber = serialNumberCounter;
+                }
+
                 if (dateStr === "2026-04-09") {
                     groupHtml = `<span class="group-badge" style="background:#efefef; color:#37352f">Everyone / All</span>`;
                 } else if (!isHoliday) {
-                    assignedGroupObj = groups[activeClassDayCounter % groups.length];
-                    activeClassDayCounter++;
-                    currentClassNumber = activeClassDayCounter;
+                    assignedGroupObj = groups[activeGroupRotationCounter % groups.length];
+                    activeGroupRotationCounter++;
                     groupHtml = `<span class="group-badge" style="background:${assignedGroupObj.bg}; color:${assignedGroupObj.color}">${assignedGroupObj.name}</span>`;
                 }
 
@@ -311,7 +316,7 @@
                         groupH2.style.background = "#efefef";
                         groupH2.style.color = "#37352f";
 
-                        document.getElementById('today-sl').innerText = "Intro. ";
+                        document.getElementById('today-sl').innerText = currentClassNumber + ". ";
                         document.getElementById('today-topic').innerText = data.topic;
                         document.getElementById('today-teacher').innerText = "Teacher: " + data.teacher;
                         
@@ -359,4 +364,3 @@
     </script>
 </body>
 </html>
-
