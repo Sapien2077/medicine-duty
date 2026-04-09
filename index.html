@@ -14,14 +14,6 @@
             --notion-border: rgba(55, 53, 47, 0.16);
             --sage-accent: #849C8A;
             --notion-hover: #efefed;
-
-            /* Muted Group Colors */
-            --g1-bg: #fdecc8; --g1-text: #815e0d; /* Yellow/Amber */
-            --g2-bg: #e1f0ef; --g2-text: #245e5a; /* Teal/Blue */
-            --g3-bg: #fde6e6; --g3-text: #8c2d2d; /* Rose */
-            --g4-bg: #edebe9; --g4-text: #4f4c49; /* Gray/Stone */
-            --g5-bg: #e6e9f6; --g5-text: #2d3b8c; /* Indigo */
-            --g6-bg: #f3e6f6; --g6-text: #5e2d8c; /* Purple */
         }
 
         * { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
@@ -39,10 +31,10 @@
 
         .workspace { max-width: 900px; width: 100%; }
 
-        header { margin-bottom: 48px; }
+        header { margin-bottom: 48px; text-align: left; }
 
         h1 {
-            font-size: 40px;
+            font-size: 36px;
             font-weight: 700;
             margin: 0 0 8px 0;
             letter-spacing: -0.02em;
@@ -50,7 +42,23 @@
             background-image: linear-gradient(transparent 70%, rgba(132, 156, 138, 0.3) 70%);
         }
 
-        .date-display { font-size: 16px; color: var(--notion-gray); font-weight: 400; margin-top: 10px; }
+        .header-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .date-display { font-size: 16px; color: var(--notion-gray); font-weight: 400; }
+        
+        #live-clock {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--notion-text);
+            font-variant-numeric: tabular-nums;
+        }
 
         .section-header {
             display: flex;
@@ -66,60 +74,63 @@
             width: fit-content;
         }
 
+        /* Centered Today's Focus Callout */
         .callout {
             background: var(--notion-bg);
-            border-radius: 4px;
-            padding: 24px;
+            border-radius: 6px;
+            padding: 32px 24px;
             display: flex;
-            gap: 16px;
-            border: 1px solid transparent;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 12px;
+            border: 1px solid var(--notion-border);
         }
 
-        .callout-icon { font-size: 24px; }
-        .callout-content h2 { margin: 0 0 12px 0; font-size: 1.5em; }
+        .callout-icon { font-size: 32px; margin-bottom: 4px; }
+        .callout-content h2 { margin: 0; font-size: 1.8em; font-weight: 700; }
 
-        .member-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+        .member-chips { 
+            display: flex; 
+            flex-wrap: wrap; 
+            gap: 8px; 
+            justify-content: center;
+            margin: 8px 0 16px 0; 
+        }
+        
         .chip {
-            padding: 4px 10px;
-            border-radius: 3px;
+            background: rgba(132, 156, 138, 0.15);
+            color: #4a5d4e;
+            padding: 4px 12px;
+            border-radius: 4px;
             font-size: 13px;
-            font-weight: 600;
+            font-weight: 500;
         }
 
-        /* Group-Specific Classes */
-        .g1 { background: var(--g1-bg); color: var(--g1-text); }
-        .g2 { background: var(--g2-bg); color: var(--g2-text); }
-        .g3 { background: var(--g3-bg); color: var(--g3-text); }
-        .g4 { background: var(--g4-bg); color: var(--g4-text); }
-        .g5 { background: var(--g5-bg); color: var(--g5-text); }
-        .g6 { background: var(--g6-bg); color: var(--g6-text); }
+        .topic-details {
+            border-top: 1px solid var(--notion-border);
+            padding-top: 16px;
+            width: 100%;
+            max-width: 500px;
+        }
 
         .table-container { width: 100%; overflow-x: auto; margin-top: 8px; }
         table { width: 100%; border-collapse: collapse; font-size: 14px; }
         th { text-align: left; padding: 10px 8px; border-bottom: 1px solid var(--notion-border); color: var(--notion-gray); font-weight: 500; }
         td { padding: 12px 8px; border-bottom: 1px solid #efefef; vertical-align: top; }
 
-        .group-tag {
-            padding: 2px 8px;
-            border-radius: 3px;
-            font-weight: 600;
-            font-size: 12px;
-            display: inline-block;
-        }
-
         .active-row { background-color: #f1f1ef; }
         .holiday { color: #d44c47; background: #fbe4e4; padding: 2px 6px; border-radius: 3px; font-size: 11px; font-weight: 700; }
 
         .directory { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
-        .directory-card { border: 1px solid var(--notion-border); border-radius: 4px; padding: 16px; transition: background 0.2s; }
-        .directory-card:hover { background: var(--notion-hover); }
+        .directory-card { border: 1px solid var(--notion-border); border-radius: 4px; padding: 16px; }
         .directory-card h4 { margin: 0 0 8px 0; font-size: 14px; color: var(--notion-gray); }
         .directory-card p { margin: 0; font-size: 14px; line-height: 1.5; }
 
         @media (max-width: 600px) {
             body { padding: 24px 16px; }
-            h1 { font-size: 32px; }
-            .callout { flex-direction: column; gap: 8px; }
+            h1 { font-size: 28px; }
+            .header-meta { flex-direction: column; align-items: flex-start; }
             th:nth-child(5), td:nth-child(5) { display: none; }
         }
     </style>
@@ -128,20 +139,23 @@
 
     <div class="workspace">
         <header>
-            <h1>🗓️ 6th Sem Medicine Posting Duty</h1>
-            <div class="date-display" id="current-date">Loading...</div>
+            <h1>🗓️ 6th Sem Medicine Posting Duty<</h1>
+            <div class="header-meta">
+                <div class="date-display" id="current-date">Loading date...</div>
+                <div id="live-clock">00:00:00</div>
+            </div>
         </header>
 
         <div class="section-header">Today's Focus</div>
         <div class="callout">
-            <div class="callout-icon">📋</div>
+            <div class="callout-icon" id="status-icon">📋</div>
             <div class="callout-content">
                 <h2 id="today-group">Loading...</h2>
                 <div class="member-chips" id="today-members"></div>
-                <div style="margin-top: 20px;">
+                <div class="topic-details">
                     <span id="today-sl" style="font-weight: bold; color: var(--notion-gray);">#</span>
-                    <span id="today-topic" style="font-weight: 500;"></span>
-                    <p id="today-teacher" style="font-size: 14px; color: var(--notion-gray); margin: 4px 0 0 20px;"></p>
+                    <span id="today-topic" style="font-weight: 600; font-size: 1.1em;"></span>
+                    <p id="today-teacher" style="font-size: 14px; color: var(--notion-gray); margin: 8px 0 0 0;"></p>
                 </div>
             </div>
         </div>
@@ -168,12 +182,12 @@
 
     <script>
         const groups = [
-            { id: 1, name: "Group 1", members: ["Sathwik", "Srinand", "Varshitha", "Vishlesh"] },
-            { id: 2, name: "Group 2", members: ["Chitta", "Nishita", "Chandrapal", "BG"] },
-            { id: 3, name: "Group 3", members: ["Arkadeep", "Arya", "Ayush Abhilash", "Jathin"] },
-            { id: 4, name: "Group 4", members: ["Barenya", "Gouri", "Gopal"] },
-            { id: 5, name: "Group 5", members: ["Ayush Dash", "Sravani", "Chidvilas", "Jaswanth"] },
-            { id: 6, name: "Group 6", members: ["Ayushmita", "Hongseng", "Gautam", "Keerthi"] }
+            { name: "Group 1", members: ["Sathwik", "Srinand", "Varshitha", "Vishlesh"] },
+            { name: "Group 2", members: ["Chitta", "Nishita", "Chandrapal", "BG"] },
+            { name: "Group 3", members: ["Arkadeep", "Arya", "Ayush Abhilash", "Jathin"] },
+            { name: "Group 4", members: ["Barenya", "Gouri", "Gopal"] },
+            { name: "Group 5", members: ["Ayush Dash", "Sravani", "Chidvilas", "Jaswanth"] },
+            { name: "Group 6", members: ["Ayushmita", "Hongseng", "Gautam", "Keerthi"] }
         ];
 
         const scheduleData = {
@@ -201,10 +215,19 @@
             "2026-04-30": { topic: "Respiratory system exam", teacher: "Faculty" }
         };
 
+        function updateClock() {
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('en-US', { hour12: true, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            document.getElementById('live-clock').innerText = timeStr;
+        }
+
         function init() {
             const today = new Date();
             const todayStr = today.toISOString().split('T')[0];
             document.getElementById('current-date').innerText = today.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+            
+            setInterval(updateClock, 1000);
+            updateClock();
 
             const tbody = document.querySelector('#schedule-table tbody');
             let activeClassDayCounter = 0;
@@ -213,13 +236,11 @@
                 const rowDate = new Date(dateStr + 'T00:00:00');
                 const isHoliday = data.topic.toLowerCase().includes("holiday");
                 
-                let assignedGroup = null;
+                let assignedGroup = "";
                 let currentClassNumber = "-";
-                let groupClass = "";
 
                 if (!isHoliday) {
-                    assignedGroup = groups[activeClassDayCounter % groups.length];
-                    groupClass = `g${assignedGroup.id}`;
+                    assignedGroup = groups[activeClassDayCounter % groups.length].name;
                     activeClassDayCounter++;
                     currentClassNumber = activeClassDayCounter;
                 }
@@ -230,7 +251,7 @@
                 tr.innerHTML = `
                     <td style="color:var(--notion-gray)">${currentClassNumber}</td>
                     <td style="white-space:nowrap">${rowDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</td>
-                    <td>${isHoliday ? '' : `<span class="group-tag ${groupClass}">${assignedGroup.name}</span>`}</td>
+                    <td style="font-weight:600">${isHoliday ? '' : assignedGroup}</td>
                     <td>${isHoliday ? '<span class="holiday">HOLIDAY</span>' : data.topic}</td>
                     <td style="color:var(--notion-gray)">${data.teacher}</td>
                 `;
@@ -238,24 +259,20 @@
 
                 if (dateStr === todayStr) {
                     if (isHoliday) {
+                        document.getElementById('status-icon').innerText = "⛱️";
                         document.getElementById('today-group').innerText = "It's a Holiday";
-                        document.getElementById('today-topic').innerText = "Rest up!";
+                        document.getElementById('today-topic').innerText = "Enjoy your day off!";
                     } else {
                         const g = groups[(activeClassDayCounter - 1) % groups.length];
                         document.getElementById('today-group').innerText = g.name;
-                        document.getElementById('today-group').className = `group-tag ${groupClass}`;
-                        document.getElementById('today-group').style.fontSize = "1.5em";
-                        document.getElementById('today-group').style.padding = "4px 12px";
-                        
                         document.getElementById('today-sl').innerText = currentClassNumber + ". ";
                         document.getElementById('today-topic').innerText = data.topic;
                         document.getElementById('today-teacher').innerText = "Teacher: " + data.teacher;
                         
                         const container = document.getElementById('today-members');
-                        container.innerHTML = "";
                         g.members.forEach(m => {
                             const span = document.createElement('span');
-                            span.className = `chip ${groupClass}`;
+                            span.className = 'chip';
                             span.innerText = m;
                             container.appendChild(span);
                         });
@@ -265,10 +282,9 @@
 
             const dir = document.getElementById('directory-grid');
             groups.forEach(g => {
-                const groupClass = `g${g.id}`;
                 const card = document.createElement('div');
                 card.className = 'directory-card';
-                card.innerHTML = `<h4 class="group-tag ${groupClass}" style="margin-bottom:12px">${g.name}</h4><p>${g.members.join(', ')}</p>`;
+                card.innerHTML = `<h4>${g.name}</h4><p>${g.members.join(', ')}</p>`;
                 dir.appendChild(card);
             });
         }
