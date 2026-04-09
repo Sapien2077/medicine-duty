@@ -3,226 +3,227 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>6th Semester Clinical Postings Duty</title>
+    <title>6th Sem Medicine Postings Duty</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
     <style>
         :root {
-            --bg-color: #F4F1EA; 
-            --primary-color: #849C8A; 
-            --secondary-color: #A3B19B; 
-            --text-color: #3D3D3D;
-            --card-bg: #FCFBF9; 
-            --border-color: #E2E0D5;
+            --bg-white: #FFFFFF;
+            --notion-bg: #f7f7f5;
+            --notion-text: #37352f;
+            --notion-gray: #787774;
+            --notion-border: rgba(55, 53, 47, 0.16);
+            --sage-accent: #849C8A; /* Keeping a hint of your sage green */
+            --notion-hover: #efefed;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            background-color: var(--bg-white);
+            color: var(--notion-text);
             margin: 0;
-            padding: 20px;
+            padding: 40px 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            line-height: 1.6;
+        }
+
+        .workspace {
+            max-width: 900px;
+            width: 100%;
         }
 
         header {
-            text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 48px;
         }
 
         h1 {
-            color: var(--primary-color);
-            margin-bottom: 5px;
-            font-weight: 600;
-        }
-
-        .container {
-            max-width: 900px;
-            width: 100%;
-            display: grid;
-            gap: 20px;
-        }
-
-        .card {
-            background-color: var(--card-bg);
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-            border: 1px solid var(--border-color);
-            border-top: 6px solid var(--primary-color);
+            font-size: 40px;
+            font-weight: 700;
+            margin: 0 0 8px 0;
+            letter-spacing: -0.02em;
         }
 
         .date-display {
-            font-size: 1.1em;
-            font-weight: bold;
-            color: #666;
+            font-size: 16px;
+            color: var(--notion-gray);
+            font-weight: 400;
         }
 
-        .section-title {
-            font-size: 1em;
-            color: var(--secondary-color);
+        .section-header {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--notion-gray);
             text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 15px;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 5px;
+            letter-spacing: 0.05em;
+            margin: 32px 0 12px 0;
         }
 
-        .group-name {
+        /* Notion "Callout" style for Today's Roster */
+        .callout {
+            background: var(--notion-bg);
+            border-radius: 4px;
+            padding: 24px;
+            display: flex;
+            gap: 16px;
+            border: 1px solid transparent;
+        }
+
+        .callout-icon {
+            font-size: 24px;
+        }
+
+        .callout-content h2 {
+            margin: 0 0 12px 0;
             font-size: 1.5em;
-            color: var(--primary-color);
-            margin: 10px 0;
         }
 
-        .group-list {
-            list-style-type: none;
-            padding: 0;
+        /* Group members tags */
+        .member-chips {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 8px;
+            margin-top: 12px;
         }
 
-        .group-list li {
-            background-color: var(--bg-color);
-            padding: 6px 12px;
-            border-radius: 15px;
-            font-size: 0.9em;
-            border: 1px solid var(--border-color);
-        }
-
-        .topic-display {
-            font-size: 1.1em;
-            font-weight: 500;
-            margin: 10px 0;
-        }
-
-        .teacher-badge {
-            display: inline-block;
-            background-color: var(--primary-color);
-            color: white;
+        .chip {
+            background: rgba(132, 156, 138, 0.15);
+            color: #4a5d4e;
             padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 0.85em;
+            border-radius: 3px;
+            font-size: 13px;
+            font-weight: 500;
         }
 
-        .sl-no {
-            font-weight: bold;
-            color: var(--secondary-color);
-            margin-right: 8px;
+        /* Minimalist Table */
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            margin-top: 8px;
         }
-        
-        /* Table Styles */
+
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 10px;
-            font-size: 0.85em;
+            font-size: 14px;
         }
-        
-        th, td {
-            padding: 12px 8px;
-            text-align: left;
-            border-bottom: 1px solid var(--border-color);
-        }
-        
+
         th {
-            background-color: var(--bg-color);
-            color: var(--primary-color);
-            text-transform: uppercase;
-            font-size: 0.8em;
+            text-align: left;
+            padding: 10px 8px;
+            border-bottom: 1px solid var(--notion-border);
+            color: var(--notion-gray);
+            font-weight: 500;
+        }
+
+        td {
+            padding: 12px 8px;
+            border-bottom: 1px solid #efefef;
+            vertical-align: top;
         }
 
         .active-row {
-            background-color: rgba(132, 156, 138, 0.15) !important;
-            font-weight: bold;
+            background-color: #f1f1ef;
+        }
+
+        .holiday {
+            color: #d44c47;
+            background: #fbe4e4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: 600;
         }
 
         /* Directory Grid */
-        .directory-grid {
+        .directory {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 15px;
-            margin-top: 10px;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 16px;
         }
 
-        .directory-item {
-            background: var(--bg-color);
-            padding: 15px;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
+        .directory-card {
+            border: 1px solid var(--notion-border);
+            border-radius: 4px;
+            padding: 16px;
+            transition: background 0.2s;
         }
 
-        .directory-item h4 {
+        .directory-card:hover {
+            background: var(--notion-hover);
+        }
+
+        .directory-card h4 {
             margin: 0 0 8px 0;
-            color: var(--primary-color);
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 4px;
+            font-size: 14px;
+            color: var(--notion-gray);
         }
 
-        .directory-item div {
-            font-size: 0.9em;
-            color: #555;
+        .directory-card p {
+            margin: 0;
+            font-size: 14px;
+            line-height: 1.5;
         }
 
+        /* Responsiveness */
         @media (max-width: 600px) {
-            .group-list { flex-direction: column; }
-            .directory-grid { grid-template-columns: 1fr; }
+            body { padding: 24px 16px; }
+            h1 { font-size: 32px; }
+            .callout { flex-direction: column; gap: 8px; }
+            th:nth-child(5), td:nth-child(5) { display: none; } /* Hide Teacher on tiny screens */
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>6th Semester Clinical Postings</h1>
-        <div class="date-display" id="current-date">Loading...</div>
-    </header>
+    <div class="workspace">
+        <header>
+            <h1>🗓️ 6th Sem Clinical Postings</h1>
+            <div class="date-display" id="current-date">Loading...</div>
+        </header>
 
-    <div class="container">
-        <div class="card">
-            <div class="section-title">Today's Roster</div>
-            <h2 class="group-name" id="group-name">Loading...</h2>
-            <ul class="group-list" id="group-members"></ul>
-            
-            <div style="margin-top: 25px;">
-                <div class="section-title">Class Details</div>
-                <div id="topic-container">
-                    <div class="topic-display"><span class="sl-no" id="class-sl">#</span><span id="class-topic">Loading...</span></div>
-                    <div id="teacher-container"><span class="teacher-badge" id="class-teacher">Teacher</span></div>
+        <div class="section-header">Today's Focus</div>
+        <div class="callout">
+            <div class="callout-icon">📋</div>
+            <div class="callout-content">
+                <h2 id="today-group">Loading...</h2>
+                <div class="member-chips" id="today-members"></div>
+                <div style="margin-top: 20px;">
+                    <span id="today-sl" style="font-weight: bold; color: var(--notion-gray);">#</span>
+                    <span id="today-topic" style="font-weight: 500;"></span>
+                    <p id="today-teacher" style="font-size: 14px; color: var(--notion-gray); margin: 4px 0 0 20px;"></p>
                 </div>
             </div>
         </div>
 
-        <div class="card">
-            <div class="section-title">April 2026 Rotation Schedule</div>
-            <div style="overflow-x: auto;">
-                <table id="schedule-table">
-                    <thead>
-                        <tr>
-                            <th>Sl.</th>
-                            <th>Date</th>
-                            <th>Group</th>
-                            <th>Topic</th>
-                            <th>Teacher</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        </tbody>
-                </table>
-            </div>
+        <div class="section-header">April Schedule</div>
+        <div class="table-container">
+            <table id="schedule-table">
+                <thead>
+                    <tr>
+                        <th>Sl.</th>
+                        <th>Date</th>
+                        <th>Group</th>
+                        <th>Clinical Topic</th>
+                        <th>Teacher</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
         </div>
 
-        <div class="card">
-            <div class="section-title">Class Directory</div>
-            <div class="directory-grid" id="directory-grid">
-                </div>
-        </div>
+        <div class="section-header">Class Directory</div>
+        <div class="directory" id="directory-grid"></div>
     </div>
 
     <script>
-        // --- CONFIGURATION ---
         const startRotationDate = '2026-04-09';
-        
         const groups = [
             { name: "Group 1", members: ["Sathwik", "Srinand", "Varshita", "Vishlesh"] },
             { name: "Group 2", members: ["Chitta", "Nishita", "Chandrapal", "BG"] },
@@ -233,107 +234,96 @@
         ];
 
         const scheduleData = {
-            "2026-04-09": { topic: "Discussion on history and Nervous system Exam", teacher: "Faculty" },
-            "2026-04-10": { topic: "Discussion on history and Rheumatological exam", teacher: "Resident" },
-            "2026-04-11": { topic: "Discussion on history and GI examination", teacher: "Faculty" },
+            "2026-04-09": { topic: "Nervous system Exam", teacher: "Faculty" },
+            "2026-04-10": { topic: "Rheumatological exam", teacher: "Resident" },
+            "2026-04-11": { topic: "GI examination", teacher: "Faculty" },
             "2026-04-12": { topic: "Holiday", teacher: "" },
-            "2026-04-13": { topic: "Discussion on history and Respiratory system exam", teacher: "Resident" },
-            "2026-04-14": { topic: "Discussion on history and Cardiovascular system Exam", teacher: "Faculty" },
-            "2026-04-15": { topic: "Discussion on history and Nervous system Exam", teacher: "Resident" },
-            "2026-04-16": { topic: "Discussion on history and Rheumatological exam", teacher: "Faculty" },
-            "2026-04-17": { topic: "Discussion on history and GI examination", teacher: "Resident" },
-            "2026-04-18": { topic: "Discussion on history and Respiratory system exam", teacher: "Faculty" },
+            "2026-04-13": { topic: "Respiratory system exam", teacher: "Resident" },
+            "2026-04-14": { topic: "Cardiovascular system Exam", teacher: "Faculty" },
+            "2026-04-15": { topic: "Nervous system Exam", teacher: "Resident" },
+            "2026-04-16": { topic: "Rheumatological exam", teacher: "Faculty" },
+            "2026-04-17": { topic: "GI examination", teacher: "Resident" },
+            "2026-04-18": { topic: "Respiratory system exam", teacher: "Faculty" },
             "2026-04-19": { topic: "Holiday", teacher: "" },
-            "2026-04-20": { topic: "Discussion on history and Cardiovascular system Exam", teacher: "Resident" },
-            "2026-04-21": { topic: "Discussion on history and Nervous system Exam", teacher: "Resident" },
-            "2026-04-22": { topic: "Discussion on history and Rheumatological exam", teacher: "Resident" },
-            "2026-04-23": { topic: "Discussion on history and GI examination", teacher: "Resident" },
-            "2026-04-24": { topic: "Discussion on history and Respiratory system exam", teacher: "Faculty" },
-            "2026-04-25": { topic: "Discussion on history and Cardiovascular system Exam", teacher: "Resident" },
+            "2026-04-20": { topic: "Cardiovascular system Exam", teacher: "Resident" },
+            "2026-04-21": { topic: "Nervous system Exam", teacher: "Resident" },
+            "2026-04-22": { topic: "Rheumatological exam", teacher: "Resident" },
+            "2026-04-23": { topic: "GI examination", teacher: "Resident" },
+            "2026-04-24": { topic: "Respiratory system exam", teacher: "Faculty" },
+            "2026-04-25": { topic: "Cardiovascular system Exam", teacher: "Resident" },
             "2026-04-26": { topic: "Holiday", teacher: "" },
-            "2026-04-27": { topic: "Discussion on history and Nervous system Exam", teacher: "Resident" },
-            "2026-04-28": { topic: "Discussion on history and Rheumatological exam", teacher: "Faculty" },
-            "2026-04-29": { topic: "Discussion on history and GI examination", teacher: "Resident" },
-            "2026-04-30": { topic: "Discussion on history and Respiratory system exam", teacher: "Faculty" }
+            "2026-04-27": { topic: "Nervous system Exam", teacher: "Resident" },
+            "2026-04-28": { topic: "Rheumatological exam", teacher: "Faculty" },
+            "2026-04-29": { topic: "GI examination", teacher: "Resident" },
+            "2026-04-30": { topic: "Respiratory system exam", teacher: "Faculty" }
         };
 
-        function updateDashboard() {
+        function init() {
             const today = new Date();
-            const yyyy = today.getFullYear();
-            const mm = String(today.getMonth() + 1).padStart(2, '0');
-            const dd = String(today.getDate()).padStart(2, '0');
-            const todayString = `${yyyy}-${mm}-${dd}`;
+            const todayStr = today.toISOString().split('T')[0];
+            document.getElementById('current-date').innerText = today.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
 
-            document.getElementById('current-date').innerText = today.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-
-            const startDate = new Date(startRotationDate + 'T00:00:00');
+            const start = new Date(startRotationDate + 'T00:00:00');
             const tbody = document.querySelector('#schedule-table tbody');
             let classCounter = 0;
 
-            // Populate Table and Update Today Card
             Object.entries(scheduleData).forEach(([dateStr, data]) => {
                 const rowDate = new Date(dateStr + 'T00:00:00');
                 const isHoliday = data.topic === "Holiday";
+                const diffDays = Math.floor((rowDate - start) / (1000 * 60 * 60 * 24));
                 
-                const diffTime = rowDate - startDate;
-                const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-                let assignedGroup = "N/A";
-                
+                let assignedGroup = "";
                 if (!isHoliday && diffDays >= 0) {
                     assignedGroup = groups[diffDays % groups.length].name;
+                    classCounter++;
                 }
 
-                if (!isHoliday) classCounter++;
-
+                // Table Render
                 const tr = document.createElement('tr');
-                if (dateStr === todayString) tr.className = 'active-row';
-                if (isHoliday) tr.style.color = "#D9534F";
-
+                if (dateStr === todayStr) tr.className = 'active-row';
+                
                 tr.innerHTML = `
-                    <td>${isHoliday ? '-' : classCounter}</td>
-                    <td style="white-space: nowrap;">${rowDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', weekday: 'short' })}</td>
-                    <td style="color: var(--primary-color); font-weight: bold;">${isHoliday ? '' : assignedGroup}</td>
-                    <td>${data.topic}</td>
-                    <td>${data.teacher}</td>
+                    <td style="color:var(--notion-gray)">${isHoliday ? '-' : classCounter}</td>
+                    <td style="white-space:nowrap">${rowDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</td>
+                    <td style="font-weight:600">${isHoliday ? '' : assignedGroup}</td>
+                    <td>${isHoliday ? '<span class="holiday">HOLIDAY</span>' : data.topic}</td>
+                    <td style="color:var(--notion-gray)">${data.teacher}</td>
                 `;
                 tbody.appendChild(tr);
 
-                if (dateStr === todayString) {
+                // Today Card Logic
+                if (dateStr === todayStr) {
                     if (isHoliday) {
-                        document.getElementById('group-name').innerText = "Holiday";
-                        document.getElementById('class-topic').innerText = "No classes scheduled.";
-                        document.getElementById('teacher-container').style.display = 'none';
+                        document.getElementById('today-group').innerText = "It's a Holiday";
                     } else {
                         const g = groups[diffDays % groups.length];
-                        document.getElementById('group-name').innerText = g.name;
-                        document.getElementById('class-sl').innerText = classCounter + ". ";
-                        document.getElementById('class-topic').innerText = data.topic;
-                        document.getElementById('class-teacher').innerText = data.teacher;
+                        document.getElementById('today-group').innerText = g.name;
+                        document.getElementById('today-sl').innerText = classCounter + ". ";
+                        document.getElementById('today-topic').innerText = data.topic;
+                        document.getElementById('today-teacher').innerText = "Teacher: " + data.teacher;
                         
-                        const membersList = document.getElementById('group-members');
+                        const container = document.getElementById('today-members');
                         g.members.forEach(m => {
-                            const li = document.createElement('li');
-                            li.innerText = m;
-                            membersList.appendChild(li);
+                            const span = document.createElement('span');
+                            span.className = 'chip';
+                            span.innerText = m;
+                            container.appendChild(span);
                         });
                     }
                 }
             });
 
-            // Populate Directory Grid
-            const directory = document.getElementById('directory-grid');
+            // Directory Render
+            const dir = document.getElementById('directory-grid');
             groups.forEach(g => {
-                const div = document.createElement('div');
-                div.className = 'directory-item';
-                div.innerHTML = `
-                    <h4>${g.name}</h4>
-                    <div>${g.members.join(', ')}</div>
-                `;
-                directory.appendChild(div);
+                const card = document.createElement('div');
+                card.className = 'directory-card';
+                card.innerHTML = `<h4>${g.name}</h4><p>${g.members.join(', ')}</p>`;
+                dir.appendChild(card);
             });
         }
 
-        updateDashboard();
+        init();
     </script>
 </body>
 </html>
