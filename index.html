@@ -31,33 +31,50 @@
 
         .workspace { max-width: 900px; width: 100%; }
 
-        header { margin-bottom: 48px; text-align: left; }
+        header { 
+            margin-bottom: 48px; 
+            display: flex;
+            flex-direction: column;
+            align-items: center; 
+        }
 
         h1 {
             font-size: 36px;
             font-weight: 700;
-            margin: 0 0 8px 0;
+            margin: 0 0 20px 0;
             letter-spacing: -0.02em;
-            display: inline-block;
-            background-image: linear-gradient(transparent 70%, rgba(132, 156, 138, 0.3) 70%);
+            text-align: center;
         }
 
         .header-meta {
             display: flex;
-            justify-content: space-between;
-            align-items: baseline;
+            justify-content: center;
+            align-items: center;
             flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 10px;
+            gap: 16px;
+            background: var(--bg-white);
+            padding: 12px 28px;
+            border-radius: 50px;
+            border: 1px solid var(--notion-border);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.06);
         }
 
-        .date-display { font-size: 16px; color: var(--notion-gray); font-weight: 400; }
+        .date-display { 
+            font-size: 16px; 
+            color: var(--notion-text); 
+            font-weight: 600; 
+            letter-spacing: 0.02em;
+        }
         
         #live-clock {
             font-size: 16px;
-            font-weight: 600;
-            color: var(--notion-text);
+            font-weight: 700;
+            color: #ffffff;
+            background-color: var(--sage-accent);
+            padding: 6px 16px;
+            border-radius: 30px;
             font-variant-numeric: tabular-nums;
+            box-shadow: 0 2px 8px rgba(132, 156, 138, 0.4);
         }
 
         .section-header {
@@ -122,7 +139,6 @@
         th { text-align: left; padding: 10px 8px; border-bottom: 1px solid var(--notion-border); color: var(--notion-gray); font-weight: 500; }
         td { padding: 12px 8px; border-bottom: 1px solid #efefef; vertical-align: top; }
 
-        /* Badge for the table group column */
         .group-badge {
             padding: 2px 8px;
             border-radius: 3px;
@@ -148,7 +164,12 @@
         @media (max-width: 600px) {
             body { padding: 24px 16px; }
             h1 { font-size: 28px; }
-            .header-meta { flex-direction: column; align-items: flex-start; }
+            .header-meta { 
+                flex-direction: column; 
+                border-radius: 12px;
+                padding: 16px;
+                width: 100%;
+            }
             th:nth-child(5), td:nth-child(5) { display: none; }
         }
     </style>
@@ -199,7 +220,6 @@
     </div>
 
     <script>
-        // Added Notion-style color palette (bg and text pairs)
         const groups = [
             { name: "Group 1", bg: "#ffe2dd", color: "#5d1715", members: ["Sathwik", "Srinand", "Varshitha", "Vishlesh"] },
             { name: "Group 2", bg: "#d3e5ef", color: "#183347", members: ["Chitta", "Nishita", "Chandrapal", "BG"] },
@@ -210,28 +230,28 @@
         ];
 
         const scheduleData = {
-            "2026-04-09": { topic: "Nervous system Exam", teacher: "Faculty" },
-            "2026-04-10": { topic: "Rheumatological exam", teacher: "Resident" },
-            "2026-04-11": { topic: "GI examination", teacher: "Faculty" },
+            "2026-04-09": { topic: "🧠 Nervous system Exam", teacher: "Faculty" },
+            "2026-04-10": { topic: "🤌 Rheumatological exam", teacher: "Resident" },
+            "2026-04-11": { topic: "🩺 GI examination", teacher: "Faculty" },
             "2026-04-12": { topic: "Holiday", teacher: "" },
-            "2026-04-13": { topic: "Respiratory system exam", teacher: "Resident" },
-            "2026-04-14": { topic: "Cardiovascular system Exam", teacher: "Faculty" },
-            "2026-04-15": { topic: "Nervous system Exam", teacher: "Resident" },
-            "2026-04-16": { topic: "Rheumatological exam", teacher: "Faculty" },
-            "2026-04-17": { topic: "GI examination", teacher: "Resident" },
-            "2026-04-18": { topic: "Respiratory system exam", teacher: "Faculty" },
+            "2026-04-13": { topic: "🫁 Respiratory system exam", teacher: "Resident" },
+            "2026-04-14": { topic: "🫀 Cardiovascular system Exam", teacher: "Faculty" },
+            "2026-04-15": { topic: "🧠 Nervous system Exam", teacher: "Resident" },
+            "2026-04-16": { topic: "🤌 Rheumatological exam", teacher: "Faculty" },
+            "2026-04-17": { topic: "🩺 GI examination", teacher: "Resident" },
+            "2026-04-18": { topic: "🫁 Respiratory system exam", teacher: "Faculty" },
             "2026-04-19": { topic: "Holiday", teacher: "" },
-            "2026-04-20": { topic: "Cardiovascular system Exam", teacher: "Resident" },
-            "2026-04-21": { topic: "Nervous system Exam", teacher: "Resident" },
-            "2026-04-22": { topic: "Rheumatological exam", teacher: "Resident" },
-            "2026-04-23": { topic: "GI examination", teacher: "Resident" },
-            "2026-04-24": { topic: "Respiratory system exam", teacher: "Faculty" },
-            "2026-04-25": { topic: "Cardiovascular system Exam", teacher: "Resident" },
+            "2026-04-20": { topic: "🫀 Cardiovascular system Exam", teacher: "Resident" },
+            "2026-04-21": { topic: "🧠 Nervous system Exam", teacher: "Resident" },
+            "2026-04-22": { topic: "🤌 Rheumatological exam", teacher: "Resident" },
+            "2026-04-23": { topic: "🩺 GI examination", teacher: "Resident" },
+            "2026-04-24": { topic: "🫁 Respiratory system exam", teacher: "Faculty" },
+            "2026-04-25": { topic: "🫀 Cardiovascular system Exam", teacher: "Resident" },
             "2026-04-26": { topic: "Holiday", teacher: "" },
-            "2026-04-27": { topic: "Nervous system Exam", teacher: "Resident" },
-            "2026-04-28": { topic: "Rheumatological exam", teacher: "Faculty" },
-            "2026-04-29": { topic: "GI examination", teacher: "Resident" },
-            "2026-04-30": { topic: "Respiratory system exam", teacher: "Faculty" }
+            "2026-04-27": { topic: "🧠 Nervous system Exam", teacher: "Resident" },
+            "2026-04-28": { topic: "🤌 Rheumatological exam", teacher: "Faculty" },
+            "2026-04-29": { topic: "🩺 GI examination", teacher: "Resident" },
+            "2026-04-30": { topic: "🫁 Respiratory system exam", teacher: "Faculty" }
         };
 
         function updateClock() {
@@ -339,3 +359,4 @@
     </script>
 </body>
 </html>
+
