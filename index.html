@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>6th Semester Clinical Postings</title>
+    <style>
+        :root {
+            --bg-color: #F4F1EA; /* Warm beige */
+            --primary-color: #849C8A; /* Sage green */
+            --secondary-color: #A3B19B; /* Lighter sage */
+            --text-color: #3D3D3D;
+            --card-bg: #FCFBF9; /* Very warm white */
+            --border-color: #E2E0D5;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            line-height: 1.6;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            margin-bottom: 5px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            display: grid;
+            gap: 20px;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            border: 1px solid var(--border-color);
+            border-top: 6px solid var(--primary-color);
+        }
+
+        .date-display {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #666;
+        }
+
+        .section-title {
+            font-size: 1.1em;
+            color: var(--secondary-color);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 5px;
+        }
+
+        .group-name {
+            font-size: 1.5em;
+            color: var(--primary-color);
+            margin: 10px 0;
+        }
+
+        .group-list {
+            list-style-type: none;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .group-list li {
+            background-color: var(--bg-color);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 1em;
+            border: 1px solid var(--border-color);
+        }
+
+        .topic-display {
+            font-size: 1.2em;
+            font-weight: 500;
+            margin: 15px 0;
+        }
+
+        .teacher-badge {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.9em;
+        }
+        
+        .holiday-banner {
+            color: #D9534F;
+            font-weight: bold;
+            font-size: 1.3em;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-size: 0.9em;
+        }
+        
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        th {
+            background-color: var(--bg-color);
+            color: var(--primary-color);
+        }
+
+        @media (max-width: 600px) {
+            .group-list { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>6th Semester Clinics</h1>
+        <div class="date-display" id="current-date">Loading...</div>
+    </header>
+
+    <div class="container">
+        <div class="card" id="today-card">
+            <div class="section-title">Today's Roster</div>
+            <h2 class="group-name" id="group-name">Loading Group...</h2>
+            <ul class="group-list" id="group-members"></ul>
+            
+            <div style="margin-top: 25px;">
+                <div class="section-title">Clinical Topic</div>
+                <div id="topic-container">
+                    <div class="topic-display" id="class-topic">Loading topic...</div>
+                    <div id="teacher-container"><span class="teacher-badge" id="class-teacher">Teacher</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="section-title">Upcoming Schedule (April 2026)</div>
+            <div style="overflow-x: auto;">
+                <table id="schedule-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Topic</th>
+                            <th>Teacher</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- CONFIGURATION ---
+        const startDateString = '2026-04-10';
+        
+        const groups = [
+            { name: "Group 1", members: ["Sathwik", "Srinand", "Varshita", "Vishlesh"] },
+            { name: "Group 2", members: ["Chitta", "Nishita", "Chandrapal", "BG"] },
+            { name: "Group 3", members: ["Arkadeep", "Arya", "Ayush Abhilash", "Jathin"] },
+            { name: "Group 4", members: ["Barenya", "Gouri", "Gopal"] },
+            { name: "Group 5", members: ["Ayush Dash", "Sravani Chidvilas", "Jaswanth"] },
+            { name: "Group 6", members: ["Ayushmita", "Hongseng", "Gautam", "Keerthi"] }
+        ];
+
+        // 6th Semester Data Extracted from your file
+        const scheduleData = {
+            "2026-04-10": { topic: "Discussion on the history taken and Rheumatological examination including assessment of clinical methods (hands on exercise)", teacher: "Resident" },
+            "2026-04-11": { topic: "Discussion on the history taken and GI examination including assessment of clinical methods (hands on exercise)", teacher: "Faculty" },
+            "2026-04-12": { topic: "Holiday", teacher: "" },
+            "2026-04-13": { topic: "Discussion on the history taken and Respiratory system examination including assessment of clinical methods (hands on exercise)", teacher: "Resident" },
+            "2026-04-14": { topic: "Discussion on the history taken and Cardiovascular system Examination including assessment of clinical methods (hands on exercise)", teacher: "Faculty" },
+            "2026-04-15": { topic: "Discussion on the history taken and Nervous system Examination including assessment of clinical methods (hands on exercise)", teacher: "Resident" },
+            "2026-04-16": { topic: "Discussion on the history taken and Rheumatological examination including assessment of clinical methods (hands on exercise)", teacher: "Faculty" },
+            "2026-04-17": { topic: "Discussion on the history taken and GI examination including assessment of clinical methods (hands on exercise)", teacher: "Resident" },
+            "2026-04-18": { topic: "Discussion on the history taken and Respiratory system examination including assessment of clinical methods (hands on exercise)", teacher: "Faculty" },
+            "2026-04-19": { topic: "Holiday", teacher: "" },
+            "2026-04-20": { topic: "Discussion on the history taken and Cardiovascular system Examination including assessment of clinical methods (hands on exercise)", teacher: "Resident" },
+            "2026-04-21": { topic: "Discussion on the history taken and Nervous system Examination including assessment of clinical methods (hands on exercise)", teacher: "Resident" },
+            "2026-04-22": { topic: "Discussion on the history taken and Rheumatological examination including assessment of clinical methods (hands on exercise)", teacher: "Resident" },
+            "2026-04-23": { topic: "Discussion on the history taken and GI examination including assessment of clinical methods (hands on exercise)", teacher: "Resident" },
+            "2026-04-24": { topic: "Discussion on the history taken and Respiratory system examination including assessment of clinical methods (hands on exercise)", teacher: "Faculty" },
+            "2026-04-25": { topic: "Discussion on the history taken and Cardiovascular system Examination including assessment of clinical methods (hands on exercise)", teacher: "Resident" },
+            "2026-04-26": { topic: "Holiday", teacher: "" },
+            "2026-04-27": { topic: "Discussion on the history taken and Nervous system Examination including assessment of clinical methods (hands on exercise)", teacher: "Resident" },
+            "2026-04-28": { topic: "Discussion on the history taken and Rheumatological examination including assessment of clinical methods (hands on exercise)", teacher: "Faculty" },
+            "2026-04-29": { topic: "Discussion on the history taken and GI examination including assessment of clinical methods (hands on exercise)", teacher: "Resident" },
+            "2026-04-30": { topic: "Discussion on the history taken and Respiratory system examination including assessment of clinical methods (hands on exercise)", teacher: "Faculty" }
+        };
+        // ---------------------
+
+        function updateDashboard() {
+            // Get Dates
+            const today = new Date();
+            // Force timezone handling to strictly match local YYYY-MM-DD
+            const yyyy = today.getFullYear();
+            const mm = String(today.getMonth() + 1).padStart(2, '0');
+            const dd = String(today.getDate()).padStart(2, '0');
+            const todayString = `${yyyy}-${mm}-${dd}`;
+
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('current-date').innerText = today.toLocaleDateString('en-US', options);
+
+            // Group Rotation Logic
+            const startDate = new Date(startDateString + 'T00:00:00'); 
+            const todayDate = new Date(todayString + 'T00:00:00');
+            
+            const diffTime = todayDate - startDate;
+            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+            
+            let groupIndex = 0;
+            if (diffDays >= 0) {
+                groupIndex = diffDays % groups.length;
+            } else {
+                groupIndex = ((diffDays % groups.length) + groups.length) % groups.length;
+            }
+            const activeGroup = groups[groupIndex];
+
+            // Setup Schedule Data
+            const todaySchedule = scheduleData[todayString];
+
+            // Render Today's View
+            if (todaySchedule && todaySchedule.topic === "Holiday") {
+                document.getElementById('group-name').innerHTML = `<span class="holiday-banner">Holiday</span>`;
+                document.getElementById('group-members').innerHTML = '';
+                document.getElementById('class-topic').innerText = "Enjoy your day off!";
+                document.getElementById('teacher-container').style.display = 'none';
+            } else {
+                // If it's a future date not in schedule or a regular day
+                document.getElementById('group-name').innerText = activeGroup.name;
+                const membersList = document.getElementById('group-members');
+                membersList.innerHTML = '';
+                activeGroup.members.forEach(member => {
+                    const li = document.createElement('li');
+                    li.innerText = member;
+                    membersList.appendChild(li);
+                });
+
+                if (todaySchedule) {
+                    document.getElementById('class-topic').innerText = todaySchedule.topic;
+                    document.getElementById('class-teacher').innerText = todaySchedule.teacher;
+                    document.getElementById('teacher-container').style.display = 'block';
+                } else if (diffDays < 0) {
+                     document.getElementById('class-topic').innerText = "Rotation hasn't started yet.";
+                     document.getElementById('teacher-container').style.display = 'none';
+                } else {
+                    document.getElementById('class-topic').innerText = "No schedule data available for today.";
+                    document.getElementById('teacher-container').style.display = 'none';
+                }
+            }
+
+            // Render the Table
+            const tbody = document.querySelector('#schedule-table tbody');
+            for (const [dateStr, data] of Object.entries(scheduleData)) {
+                // Parse date for nicer display
+                const d = new Date(dateStr + 'T00:00:00');
+                const displayDate = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', weekday: 'short' });
+                
+                const tr = document.createElement('tr');
+                if (data.topic === "Holiday") {
+                     tr.style.backgroundColor = "rgba(217, 83, 79, 0.05)";
+                     tr.style.color = "#D9534F";
+                }
+
+                tr.innerHTML = `
+                    <td style="white-space: nowrap; font-weight: 500;">${displayDate}</td>
+                    <td>${data.topic}</td>
+                    <td>${data.teacher}</td>
+                `;
+                tbody.appendChild(tr);
+            }
+        }
+
+        updateDashboard();
+    </script>
+</body>
+</html>
