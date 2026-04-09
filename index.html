@@ -14,6 +14,14 @@
             --notion-border: rgba(55, 53, 47, 0.16);
             --sage-accent: #849C8A;
             --notion-hover: #efefed;
+
+            /* Muted Group Colors */
+            --g1-bg: #fdecc8; --g1-text: #815e0d; /* Yellow/Amber */
+            --g2-bg: #e1f0ef; --g2-text: #245e5a; /* Teal/Blue */
+            --g3-bg: #fde6e6; --g3-text: #8c2d2d; /* Rose */
+            --g4-bg: #edebe9; --g4-text: #4f4c49; /* Gray/Stone */
+            --g5-bg: #e6e9f6; --g5-text: #2d3b8c; /* Indigo */
+            --g6-bg: #f3e6f6; --g6-text: #5e2d8c; /* Purple */
         }
 
         * { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
@@ -39,7 +47,6 @@
             margin: 0 0 8px 0;
             letter-spacing: -0.02em;
             display: inline-block;
-            /* Subtle minimal highlight underline */
             background-image: linear-gradient(transparent 70%, rgba(132, 156, 138, 0.3) 70%);
         }
 
@@ -54,7 +61,7 @@
             text-transform: uppercase;
             letter-spacing: 0.05em;
             margin: 32px 0 12px 0;
-            border-bottom: 2px solid rgba(132, 156, 138, 0.2); /* Section highlight */
+            border-bottom: 2px solid rgba(132, 156, 138, 0.2);
             padding-bottom: 4px;
             width: fit-content;
         }
@@ -73,18 +80,32 @@
 
         .member-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
         .chip {
-            background: rgba(132, 156, 138, 0.15);
-            color: #4a5d4e;
             padding: 4px 10px;
             border-radius: 3px;
             font-size: 13px;
-            font-weight: 500;
+            font-weight: 600;
         }
+
+        /* Group-Specific Classes */
+        .g1 { background: var(--g1-bg); color: var(--g1-text); }
+        .g2 { background: var(--g2-bg); color: var(--g2-text); }
+        .g3 { background: var(--g3-bg); color: var(--g3-text); }
+        .g4 { background: var(--g4-bg); color: var(--g4-text); }
+        .g5 { background: var(--g5-bg); color: var(--g5-text); }
+        .g6 { background: var(--g6-bg); color: var(--g6-text); }
 
         .table-container { width: 100%; overflow-x: auto; margin-top: 8px; }
         table { width: 100%; border-collapse: collapse; font-size: 14px; }
         th { text-align: left; padding: 10px 8px; border-bottom: 1px solid var(--notion-border); color: var(--notion-gray); font-weight: 500; }
         td { padding: 12px 8px; border-bottom: 1px solid #efefef; vertical-align: top; }
+
+        .group-tag {
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-weight: 600;
+            font-size: 12px;
+            display: inline-block;
+        }
 
         .active-row { background-color: #f1f1ef; }
         .holiday { color: #d44c47; background: #fbe4e4; padding: 2px 6px; border-radius: 3px; font-size: 11px; font-weight: 700; }
@@ -147,15 +168,14 @@
 
     <script>
         const groups = [
-            { name: "Group 1", members: ["Sathwik", "Srinand", "Varshitha", "Vishlesh"] },
-            { name: "Group 2", members: ["Chitta", "Nishita", "Chandrapal", "BG"] },
-            { name: "Group 3", members: ["Arkadeep", "Arya", "Ayush Abhilash", "Jathin"] },
-            { name: "Group 4", members: ["Barenya", "Gouri", "Gopal"] },
-            { name: "Group 5", members: ["Ayush Dash", "Sravani", "Chidvilas", "Jaswanth"] },
-            { name: "Group 6", members: ["Ayushmita", "Hongseng", "Gautam", "Keerthi"] }
+            { id: 1, name: "Group 1", members: ["Sathwik", "Srinand", "Varshitha", "Vishlesh"] },
+            { id: 2, name: "Group 2", members: ["Chitta", "Nishita", "Chandrapal", "BG"] },
+            { id: 3, name: "Group 3", members: ["Arkadeep", "Arya", "Ayush Abhilash", "Jathin"] },
+            { id: 4, name: "Group 4", members: ["Barenya", "Gouri", "Gopal"] },
+            { id: 5, name: "Group 5", members: ["Ayush Dash", "Sravani", "Chidvilas", "Jaswanth"] },
+            { id: 6, name: "Group 6", members: ["Ayushmita", "Hongseng", "Gautam", "Keerthi"] }
         ];
 
-        // Ensure these dates are sorted chronologically
         const scheduleData = {
             "2026-04-09": { topic: "Nervous system Exam", teacher: "Faculty" },
             "2026-04-10": { topic: "Rheumatological exam", teacher: "Resident" },
@@ -187,38 +207,35 @@
             document.getElementById('current-date').innerText = today.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
 
             const tbody = document.querySelector('#schedule-table tbody');
-            
-            // LOGIC FIX: Maintain a "activeClassDay" counter that ONLY increments on non-holidays
             let activeClassDayCounter = 0;
 
             Object.entries(scheduleData).forEach(([dateStr, data]) => {
                 const rowDate = new Date(dateStr + 'T00:00:00');
                 const isHoliday = data.topic.toLowerCase().includes("holiday");
                 
-                let assignedGroup = "";
+                let assignedGroup = null;
                 let currentClassNumber = "-";
+                let groupClass = "";
 
                 if (!isHoliday) {
-                    // Only calculate a group and increment counter if it's NOT a holiday
-                    assignedGroup = groups[activeClassDayCounter % groups.length].name;
-                    activeClassDayCounter++; // The counter only moves forward for valid classes
+                    assignedGroup = groups[activeClassDayCounter % groups.length];
+                    groupClass = `g${assignedGroup.id}`;
+                    activeClassDayCounter++;
                     currentClassNumber = activeClassDayCounter;
                 }
 
-                // Table Render
                 const tr = document.createElement('tr');
                 if (dateStr === todayStr) tr.className = 'active-row';
                 
                 tr.innerHTML = `
                     <td style="color:var(--notion-gray)">${currentClassNumber}</td>
                     <td style="white-space:nowrap">${rowDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</td>
-                    <td style="font-weight:600">${isHoliday ? '' : assignedGroup}</td>
+                    <td>${isHoliday ? '' : `<span class="group-tag ${groupClass}">${assignedGroup.name}</span>`}</td>
                     <td>${isHoliday ? '<span class="holiday">HOLIDAY</span>' : data.topic}</td>
                     <td style="color:var(--notion-gray)">${data.teacher}</td>
                 `;
                 tbody.appendChild(tr);
 
-                // Today Card Logic
                 if (dateStr === todayStr) {
                     if (isHoliday) {
                         document.getElementById('today-group').innerText = "It's a Holiday";
@@ -226,14 +243,19 @@
                     } else {
                         const g = groups[(activeClassDayCounter - 1) % groups.length];
                         document.getElementById('today-group').innerText = g.name;
+                        document.getElementById('today-group').className = `group-tag ${groupClass}`;
+                        document.getElementById('today-group').style.fontSize = "1.5em";
+                        document.getElementById('today-group').style.padding = "4px 12px";
+                        
                         document.getElementById('today-sl').innerText = currentClassNumber + ". ";
                         document.getElementById('today-topic').innerText = data.topic;
                         document.getElementById('today-teacher').innerText = "Teacher: " + data.teacher;
                         
                         const container = document.getElementById('today-members');
+                        container.innerHTML = "";
                         g.members.forEach(m => {
                             const span = document.createElement('span');
-                            span.className = 'chip';
+                            span.className = `chip ${groupClass}`;
                             span.innerText = m;
                             container.appendChild(span);
                         });
@@ -241,12 +263,12 @@
                 }
             });
 
-            // Directory Render
             const dir = document.getElementById('directory-grid');
             groups.forEach(g => {
+                const groupClass = `g${g.id}`;
                 const card = document.createElement('div');
                 card.className = 'directory-card';
-                card.innerHTML = `<h4>${g.name}</h4><p>${g.members.join(', ')}</p>`;
+                card.innerHTML = `<h4 class="group-tag ${groupClass}" style="margin-bottom:12px">${g.name}</h4><p>${g.members.join(', ')}</p>`;
                 dir.appendChild(card);
             });
         }
