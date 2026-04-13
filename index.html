@@ -312,9 +312,322 @@
 
                 if (dateStr === todayStr) {
                     if (isHoliday) {
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>6th Sem Medicine Posting Duty</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+    <style>
+        :root {
+            --bg-white: #FFFFFF;
+            --notion-bg: #f7f7f5;
+            --notion-text: #37352f;
+            --notion-gray: #787774;
+            --notion-border: rgba(55, 53, 47, 0.16);
+            --sage-accent: #849C8A;
+            --notion-hover: #efefed;
+        }
+
+        * { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            background-color: var(--bg-white);
+            color: var(--notion-text);
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .workspace { max-width: 900px; width: 100%; }
+
+        header { 
+            margin-bottom: 48px; 
+            display: flex;
+            flex-direction: column;
+            align-items: center; 
+        }
+
+        h1 {
+            font-size: 36px;
+            font-weight: 700;
+            margin: 0 0 20px 0;
+            letter-spacing: -0.02em;
+            text-align: center;
+        }
+
+        .header-meta {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            background: var(--bg-white);
+            padding: 12px 28px;
+            border-radius: 50px;
+            border: 1px solid var(--notion-border);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.06);
+        }
+
+        .date-display { 
+            font-size: 16px; 
+            color: var(--notion-text); 
+            font-weight: 600; 
+            letter-spacing: 0.02em;
+        }
+        
+        #live-clock {
+            font-size: 16px;
+            font-weight: 700;
+            color: #ffffff;
+            background-color: var(--sage-accent);
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-variant-numeric: tabular-nums;
+            box-shadow: 0 2px 8px rgba(132, 156, 138, 0.4);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--notion-gray);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin: 32px 0 12px 0;
+            border-bottom: 2px solid rgba(132, 156, 138, 0.2);
+            padding-bottom: 4px;
+            width: fit-content;
+        }
+
+        .callout {
+            background: var(--notion-bg);
+            border-radius: 6px;
+            padding: 32px 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 12px;
+            border: 1px solid var(--notion-border);
+        }
+
+        .callout-icon { font-size: 32px; margin-bottom: 4px; }
+        .callout-content h2 { 
+            margin: 0; 
+            font-size: 1.8em; 
+            font-weight: 700; 
+            padding: 4px 12px;
+            border-radius: 4px;
+        }
+
+        .member-chips { 
+            display: flex; 
+            flex-wrap: wrap; 
+            gap: 8px; 
+            justify-content: center;
+            margin: 8px 0 16px 0; 
+        }
+        
+        .chip {
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .topic-details {
+            border-top: 1px solid var(--notion-border);
+            padding-top: 16px;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .table-container { width: 100%; overflow-x: auto; margin-top: 8px; }
+        table { width: 100%; border-collapse: collapse; font-size: 14px; }
+        th { text-align: left; padding: 10px 8px; border-bottom: 1px solid var(--notion-border); color: var(--notion-gray); font-weight: 500; }
+        td { padding: 12px 8px; border-bottom: 1px solid #efefef; vertical-align: top; }
+
+        .group-badge {
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-weight: 600;
+            font-size: 12px;
+            display: inline-block;
+        }
+
+        .active-row { background-color: #f1f1ef; }
+        .holiday { color: #d44c47; background: #fbe4e4; padding: 2px 6px; border-radius: 3px; font-size: 11px; font-weight: 700; }
+
+        .directory { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
+        .directory-card { 
+            border: 1px solid var(--notion-border); 
+            border-radius: 4px; 
+            padding: 16px; 
+            border-left-width: 5px;
+            border-left-style: solid;
+        }
+        .directory-card h4 { margin: 0 0 8px 0; font-size: 14px; color: var(--notion-gray); }
+        .directory-card p { margin: 0; font-size: 14px; line-height: 1.5; }
+
+        @media (max-width: 600px) {
+            body { padding: 24px 16px; }
+            h1 { font-size: 28px; }
+            .header-meta { 
+                flex-direction: column; 
+                border-radius: 12px;
+                padding: 16px;
+                width: 100%;
+            }
+            th:nth-child(5), td:nth-child(5) { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="workspace">
+        <header>
+            <h1>🗓️ 6th Sem Medicine Posting Duty</h1>
+            <div class="header-meta">
+                <div class="date-display" id="current-date">Loading date...</div>
+                <div id="live-clock">00:00:00</div>
+            </div>
+        </header>
+
+        <div class="section-header">Today's Focus</div>
+        <div class="callout">
+            <div class="callout-icon" id="status-icon">📋</div>
+            <div class="callout-content">
+                <h2 id="today-group">Loading...</h2>
+                <div class="member-chips" id="today-members"></div>
+                <div class="topic-details">
+                    <span id="today-sl" style="font-weight: bold; color: var(--notion-gray);">#</span>
+                    <span id="today-topic" style="font-weight: 600; font-size: 1.1em;"></span>
+                    <p id="today-teacher" style="font-size: 14px; color: var(--notion-gray); margin: 8px 0 0 0;"></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-header">April Schedule</div>
+        <div class="table-container">
+            <table id="schedule-table">
+                <thead>
+                    <tr>
+                        <th>Sl.</th>
+                        <th>Date</th>
+                        <th>Group</th>
+                        <th>Clinical Topic</th>
+                        <th>Teacher</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <div class="section-header">Class Directory</div>
+        <div class="directory" id="directory-grid"></div>
+    </div>
+
+    <script>
+        const groups = [
+            { name: "Group 1", bg: "#ffe2dd", color: "#5d1715", members: ["Sathwik", "Srinand", "Varshitha", "Vishlesh"] },
+            { name: "Group 2", bg: "#d3e5ef", color: "#183347", members: ["Chitta", "Nishita", "Chandrapal", "BG"] },
+            { name: "Group 3", bg: "#fdecc8", color: "#402c1b", members: ["Arkadeep", "Arya", "Ayush Abhilash", "Jathin"] },
+            { name: "Group 4", bg: "#dbeddb", color: "#1c3829", members: ["Barenya", "Gouri", "Gopal"] },
+            { name: "Group 5", bg: "#e8deee", color: "#2e1d3a", members: ["Ayush Dash", "Sravani", "Chidvilas", "Jaswanth"] },
+            { name: "Group 6", bg: "#faebdd", color: "#4a2c0b", members: ["Ayushmita", "Hongseng", "Gautam", "Keerthi"] }
+        ];
+
+        const scheduleData = {
+            "2026-04-09": { topic: "🧠 Nervous system Exam", teacher: "Faculty" },
+            "2026-04-10": { topic: "🤌 Rheumatological exam", teacher: "Resident" },
+            "2026-04-11": { topic: "🩺 GI examination", teacher: "Faculty" },
+            "2026-04-12": { topic: "Holiday", teacher: "" },
+            "2026-04-13": { topic: "🫁 Respiratory system exam", teacher: "Resident" },
+            "2026-04-14": { topic: "Holiday: Ambedkar Jayanti", teacher: "" },
+            "2026-04-15": { topic: "🫀 Cardiovascular system Exam", teacher: "Faculty" },
+            "2026-04-16": { topic: "🧠 Nervous system Exam", teacher: "Resident" },
+            "2026-04-17": { topic: "🤌 Rheumatological exam", teacher: "Faculty" },
+            "2026-04-18": { topic: "🩺 GI examination", teacher: "Resident" },
+            "2026-04-19": { topic: "Holiday", teacher: "" },
+            "2026-04-20": { topic: "🫁 Respiratory system exam", teacher: "Faculty" },
+            "2026-04-21": { topic: "🫀 Cardiovascular system Exam", teacher: "Resident" },
+            "2026-04-22": { topic: "🧠 Nervous system Exam", teacher: "Resident" },
+            "2026-04-23": { topic: "🤌 Rheumatological exam", teacher: "Resident" },
+            "2026-04-24": { topic: "🩺 GI examination", teacher: "Resident" },
+            "2026-04-25": { topic: "🫁 Respiratory system exam", teacher: "Faculty" },
+            "2026-04-26": { topic: "Holiday", teacher: "" },
+            "2026-04-27": { topic: "🫀 Cardiovascular system Exam", teacher: "Resident" },
+            "2026-04-28": { topic: "🧠 Nervous system Exam", teacher: "Resident" },
+            "2026-04-29": { topic: "🤌 Rheumatological exam", teacher: "Faculty" },
+            "2026-04-30": { topic: "🩺 GI examination", teacher: "Resident" }
+        };
+
+        function updateClock() {
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('en-US', { hour12: true, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            document.getElementById('live-clock').innerText = timeStr;
+        }
+
+        function init() {
+            const today = new Date();
+            const yyyy = today.getFullYear();
+            const mm = String(today.getMonth() + 1).padStart(2, '0');
+            const dd = String(today.getDate()).padStart(2, '0');
+            const todayStr = `${yyyy}-${mm}-${dd}`;
+            
+            document.getElementById('current-date').innerText = today.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+            
+            setInterval(updateClock, 1000);
+            updateClock();
+
+            const tbody = document.querySelector('#schedule-table tbody');
+            let activeGroupRotationCounter = 0;
+            let serialNumberCounter = 0;
+
+            Object.entries(scheduleData).forEach(([dateStr, data]) => {
+                const rowDate = new Date(dateStr + 'T00:00:00');
+                const isHoliday = data.topic.toLowerCase().includes("holiday");
+                
+                let assignedGroupObj = null;
+                let currentClassNumber = "-";
+                let groupHtml = "";
+
+                if (!isHoliday) {
+                    serialNumberCounter++;
+                    currentClassNumber = serialNumberCounter;
+                }
+
+                if (dateStr === "2026-04-09") {
+                    groupHtml = `<span class="group-badge" style="background:#efefef; color:#37352f">Everyone / All</span>`;
+                } else if (!isHoliday) {
+                    assignedGroupObj = groups[activeGroupRotationCounter % groups.length];
+                    activeGroupRotationCounter++;
+                    groupHtml = `<span class="group-badge" style="background:${assignedGroupObj.bg}; color:${assignedGroupObj.color}">${assignedGroupObj.name}</span>`;
+                }
+
+                const tr = document.createElement('tr');
+                if (dateStr === todayStr) tr.className = 'active-row';
+                
+                tr.innerHTML = `
+                    <td style="color:var(--notion-gray)">${currentClassNumber}</td>
+                    <td style="white-space:nowrap">${rowDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</td>
+                    <td>${groupHtml}</td>
+                    <td>${isHoliday ? '<span class="holiday">' + data.topic.toUpperCase() + '</span>' : data.topic}</td>
+                    <td style="color:var(--notion-gray)">${data.teacher}</td>
+                `;
+                tbody.appendChild(tr);
+
+                if (dateStr === todayStr) {
+                    if (isHoliday) {
                         document.getElementById('status-icon').innerText = "⛱️";
                         document.getElementById('today-group').innerText = "It's a Holiday";
-                        document.getElementById('today-topic').innerText = "Enjoy your day off!";
+                        document.getElementById('today-topic').innerText = data.topic || "Enjoy your day off!";
                     } else if (dateStr === "2026-04-09") {
                         const groupH2 = document.getElementById('today-group');
                         groupH2.innerText = "Everyone / All";
@@ -330,6 +643,46 @@
                         span.className = 'chip';
                         span.style.background = "#efefef";
                         span.innerText = "Full Batch Presence";
+                        container.appendChild(span);
+                    } else {
+                        const g = assignedGroupObj;
+                        const groupH2 = document.getElementById('today-group');
+                        groupH2.innerText = g.name;
+                        groupH2.style.background = g.bg;
+                        groupH2.style.color = g.color;
+
+                        document.getElementById('today-sl').innerText = currentClassNumber + ". ";
+                        document.getElementById('today-topic').innerText = data.topic;
+                        document.getElementById('today-teacher').innerText = "Teacher: " + data.teacher;
+                        
+                        const container = document.getElementById('today-members');
+                        g.members.forEach(m => {
+                            const span = document.createElement('span');
+                            span.className = 'chip';
+                            span.style.background = g.bg;
+                            span.style.color = g.color;
+                            span.innerText = m;
+                            container.appendChild(span);
+                        });
+                    }
+                }
+            });
+
+            const dir = document.getElementById('directory-grid');
+            groups.forEach(g => {
+                const card = document.createElement('div');
+                card.className = 'directory-card';
+                card.style.borderLeftColor = g.bg;
+                card.innerHTML = `<h4>${g.name}</h4><p>${g.members.join(', ')}</p>`;
+                dir.appendChild(card);
+            });
+        }
+
+        init();
+    </script>
+</body>
+</html>
+.innerText = "Full Batch Presence";
                         container.appendChild(span);
                     } else {
                         const g = assignedGroupObj;
