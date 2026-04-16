@@ -237,21 +237,21 @@
             "2026-04-13": { topic: "🫁 Respiratory system exam", teacher: "Resident" },
             "2026-04-14": { topic: "Holiday: Ambedkar Jayanti (CVS Exam skipped)", teacher: "" },
             "2026-04-15": { topic: "🧠 Nervous system Exam", teacher: "Resident" },
-            "2026-04-16": { topic: "Skill lab posting (Medicine)", teacher: "" },
-            "2026-04-17": { topic: "🤌 Rheumatological exam", teacher: "Faculty" },
-            "2026-04-18": { topic: "Skill lab posting (Surgery)", teacher: "" },
+            "2026-04-16": { topic: "Skill lab posting: Medicine (Rheumatological exam skipped)", teacher: "" },
+            "2026-04-17": { topic: "🩺 GI examination", teacher: "Faculty" },
+            "2026-04-18": { topic: "Skill lab posting: Surgery (Respiratory exam skipped)", teacher: "" },
             "2026-04-19": { topic: "Holiday", teacher: "" },
-            "2026-04-20": { topic: "🩺 GI examination", teacher: "Resident" },
-            "2026-04-21": { topic: "🫁 Respiratory system exam", teacher: "Faculty" },
-            "2026-04-22": { topic: "🫀 Cardiovascular system Exam", teacher: "Resident" },
-            "2026-04-23": { topic: "🧠 Nervous system Exam", teacher: "Resident" },
-            "2026-04-24": { topic: "🤌 Rheumatological exam", teacher: "Resident" },
-            "2026-04-25": { topic: "🩺 GI examination", teacher: "Resident" },
+            "2026-04-20": { topic: "🫀 Cardiovascular system Exam", teacher: "Resident" },
+            "2026-04-21": { topic: "🧠 Nervous system Exam", teacher: "Faculty" },
+            "2026-04-22": { topic: "🤌 Rheumatological exam", teacher: "Resident" },
+            "2026-04-23": { topic: "🩺 GI examination", teacher: "Resident" },
+            "2026-04-24": { topic: "🫁 Respiratory system exam", teacher: "Resident" },
+            "2026-04-25": { topic: "🫀 Cardiovascular system Exam", teacher: "Faculty" },
             "2026-04-26": { topic: "Holiday", teacher: "" },
-            "2026-04-27": { topic: "🫁 Respiratory system exam", teacher: "Faculty" },
-            "2026-04-28": { topic: "🫀 Cardiovascular system Exam", teacher: "Resident" },
-            "2026-04-29": { topic: "🧠 Nervous system Exam", teacher: "Resident" },
-            "2026-04-30": { topic: "🤌 Rheumatological exam", teacher: "Faculty" }
+            "2026-04-27": { topic: "🧠 Nervous system Exam", teacher: "Resident" },
+            "2026-04-28": { topic: "🤌 Rheumatological exam", teacher: "Resident" },
+            "2026-04-29": { topic: "🩺 GI examination", teacher: "Faculty" },
+            "2026-04-30": { topic: "🫁 Respiratory system exam", teacher: "Resident" }
         };
 
         function updateClock() {
@@ -278,21 +278,20 @@
 
             Object.entries(scheduleData).forEach(([dateStr, data]) => {
                 const rowDate = new Date(dateStr + 'T00:00:00');
-                // Updated isHoliday check to skip rotation and serial numbering for Skill Labs
-                const isHoliday = data.topic.toLowerCase().includes("holiday") || data.topic.toLowerCase().includes("skill lab");
+                const isSkipped = data.topic.toLowerCase().includes("holiday") || data.topic.toLowerCase().includes("skill lab");
                 
                 let assignedGroupObj = null;
                 let currentClassNumber = "-";
                 let groupHtml = "";
 
-                if (!isHoliday) {
+                if (!isSkipped) {
                     serialNumberCounter++;
                     currentClassNumber = serialNumberCounter;
                 }
 
                 if (dateStr === "2026-04-09") {
                     groupHtml = `<span class="group-badge" style="background:#efefef; color:#37352f">Everyone / All</span>`;
-                } else if (!isHoliday) {
+                } else if (!isSkipped) {
                     assignedGroupObj = groups[activeGroupRotationCounter % groups.length];
                     activeGroupRotationCounter++;
                     groupHtml = `<span class="group-badge" style="background:${assignedGroupObj.bg}; color:${assignedGroupObj.color}">${assignedGroupObj.name}</span>`;
@@ -305,16 +304,19 @@
                     <td style="color:var(--notion-gray)">${currentClassNumber}</td>
                     <td style="white-space:nowrap">${rowDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</td>
                     <td>${groupHtml}</td>
-                    <td>${isHoliday ? '<span class="holiday">' + data.topic.toUpperCase() + '</span>' : data.topic}</td>
+                    <td>${isSkipped ? '<span class="holiday">' + data.topic.toUpperCase() + '</span>' : data.topic}</td>
                     <td style="color:var(--notion-gray)">${data.teacher}</td>
                 `;
                 tbody.appendChild(tr);
 
                 if (dateStr === todayStr) {
-                    if (isHoliday) {
+                    if (isSkipped) {
                         document.getElementById('status-icon').innerText = data.topic.includes("Skill") ? "🏥" : "⛱️";
-                        document.getElementById('today-group').innerText = data.topic.includes("Skill") ? "Outside Posting" : "It's a Holiday";
+                        document.getElementById('today-group').innerText = data.topic.includes("Skill") ? "External Posting" : "It's a Holiday";
                         document.getElementById('today-topic').innerText = data.topic;
+                        document.getElementById('today-sl').innerText = "";
+                        document.getElementById('today-teacher').innerText = "";
+                        document.getElementById('today-members').innerHTML = "";
                     } else if (dateStr === "2026-04-09") {
                         const groupH2 = document.getElementById('today-group');
                         groupH2.innerText = "Everyone / All";
@@ -326,6 +328,7 @@
                         document.getElementById('today-teacher').innerText = "Teacher: " + data.teacher;
                         
                         const container = document.getElementById('today-members');
+                        container.innerHTML = "";
                         const span = document.createElement('span');
                         span.className = 'chip';
                         span.style.background = "#efefef";
@@ -343,6 +346,7 @@
                         document.getElementById('today-teacher').innerText = "Teacher: " + data.teacher;
                         
                         const container = document.getElementById('today-members');
+                        container.innerHTML = "";
                         g.members.forEach(m => {
                             const span = document.createElement('span');
                             span.className = 'chip';
